@@ -1,0 +1,83 @@
+﻿<Page
+    x:Class="Store_CS_WebAPI_Client.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Store_CS_WebAPI_Client"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:Store_CS_WebAPI_Client.ViewModel"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <vm:OrderViewModel x:Key="vmDs"></vm:OrderViewModel>
+        <DataTemplate x:Key="orderTemplate">
+            <StackPanel Orientation="Horizontal" Width="600">
+                <TextBlock Text="{Binding OrderId}" Width="100"></TextBlock>
+                <TextBlock Text="{Binding CustomerName}" Width="100"></TextBlock>
+                <TextBlock Text="{Binding OrderedItem}" Width="100"></TextBlock>
+                <TextBlock Text="{Binding OrderedQuantity}" Width="100"></TextBlock>
+                <TextBlock Text="{Binding UnitPrice}" Width="100"></TextBlock>
+                <TextBlock Text="{Binding TotalBill}" Width="100"></TextBlock>
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}" DataContext="{Binding Source={StaticResource vmDs}}"
+           x:Name="MainGrid">
+        <Grid HorizontalAlignment="Left" Height="504" Margin="69,114,0,0" VerticalAlignment="Top" Width="680"
+               DataContext="{Binding Path=Order,Mode=TwoWay}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="74*"/>
+                <RowDefinition Height="72*"/>
+                <RowDefinition Height="71*"/>
+                <RowDefinition Height="69*"/>
+                <RowDefinition Height="70*"/>
+                <RowDefinition Height="67*"/>
+                <RowDefinition Height="96*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="101*"/>
+                <ColumnDefinition Width="109*"/>
+            </Grid.ColumnDefinitions>
+
+
+            <TextBlock TextWrapping="Wrap" Text="Order Id" FontFamily="Segor UI" FontSize="30"/>
+            <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="Customer Name" FontFamily="Segoe UI" FontSize="30"/>
+            <TextBlock Grid.Row="2" TextWrapping="Wrap" FontFamily="Segoe UI" FontSize="30" Text="Ordered  Item"/>
+            <TextBlock Grid.Row="4" TextWrapping="Wrap" Text="Unite Price" FontFamily="Segoe UI" FontSize="30" Margin="0,0,0,1"/>
+            <TextBlock Grid.Row="3" TextWrapping="Wrap" Text="Ordered Quantity" FontFamily="Segoe UI" FontSize="30" Grid.RowSpan="2"/>
+            <TextBlock Grid.Row="5" TextWrapping="Wrap" Text="Total Price" FontFamily="Segoe UI" FontSize="30"/>
+
+            <TextBox x:Name="txtordid" Grid.Column="1" TextWrapping="Wrap" Height="55"
+                     FontSize="30" IsEnabled="False" Text="{Binding  Source={StaticResource vmDs},Path=OrderId}" Width="300"/>
+            <TextBox x:Name="txtcustname" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" Height="55"
+                     FontSize="30" Text="{Binding CustomerName,Mode=TwoWay}" Width="300"/>
+            <TextBox x:Name="txtorditem" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" Height="55"
+                     FontSize="30" Text="{Binding OrderedItem,Mode=TwoWay}" Width="300"/>
+            <TextBox x:Name="txtortqty" Grid.Column="1" Grid.Row="3" TextWrapping="Wrap" Height="55"
+                     FontSize="30" Text="{Binding OrderedQuantity,Mode=TwoWay}" Width="300"/>
+            <TextBox x:Name="txtunitprice" Grid.Column="1" Grid.Row="4" TextWrapping="Wrap" Height="55"
+                     FontSize="30" Text="{Binding UnitPrice,Mode=TwoWay}" Width="300"/>
+            <TextBox x:Name="txtutotalbill" Grid.Column="1" Grid.Row="5" TextWrapping="Wrap" Height="55"
+                     FontSize="30" Text="{Binding  Source={StaticResource vmDs},Path=TotalBill}" IsEnabled="False" Width="300"/>
+
+        </Grid>
+        <ListView x:Name="lstorders" HorizontalAlignment="Left" 
+                  Height="504" Margin="749,123,0,0" VerticalAlignment="Top" Width="587"
+                   ItemsSource="{Binding Orders}"
+                  SelectedItem="{Binding Source={StaticResource vmDs},Path=SelectedOrder,Mode=TwoWay}"
+                   ItemTemplate="{StaticResource orderTemplate}"/>
+
+        <StackPanel Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="96" Grid.Row="6" VerticalAlignment="Top" 
+                        Width="840" Orientation="Horizontal">
+            <Button Name="btnnew" Content="New" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="168"
+                        FontSize="30" Command="{Binding Path=NewOrders}" CommandParameter="{Binding Order}"/>
+            <Button Name="btnadd" Content="Add" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="168"
+                        FontSize="30" Command="{Binding Path=AddOrder}" CommandParameter="{Binding Order}"/>
+            <Button Name="btnupdate" Content="Update" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="168"
+                        FontSize="30" Command="{Binding UpdateOrder}" CommandParameter="{Binding Order}"/>
+            <Button Name="btndelete" Content="Delete" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="168"
+                        FontSize="30" Command="{Binding DeleteOrder}" CommandParameter="{Binding Order}"/>
+        </StackPanel>
+        <TextBlock HorizontalAlignment="Left" Height="46" Margin="928,50,0,0" TextWrapping="Wrap" Text="List of Orders" VerticalAlignment="Top" Width="395" FontFamily="Segoe UI" FontSize="30"/>
+    </Grid>
+</Page>
